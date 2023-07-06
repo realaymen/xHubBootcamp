@@ -1,6 +1,6 @@
 package com.example.xHubBootcamp.service;
 
-import com.example.xHubBootcamp.entity.Employee;
+import com.example.xHubBootcamp.dto.DtoEmployee;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,13 +8,15 @@ import java.util.List;
 @Service
 public interface EmployeeService {
 
-    List<Employee> getAllEmployees();
+    List<DtoEmployee> getAllEmployees();
 
-    Employee getEmployeeById(Long id);
+    DtoEmployee getEmployeeById(Long id);
 
-    Employee addEmployee(Employee employee);
+    DtoEmployee addEmployee(DtoEmployee dtoEmployee);
 
-    Employee updateEmployee(Long id, Employee employee);
+    DtoEmployee updateEmployee(DtoEmployee dtoEmployee);
 
-    void deleteEmployee(Long id);
+    void deleteEmployee(Long customerId);
+
+
 }

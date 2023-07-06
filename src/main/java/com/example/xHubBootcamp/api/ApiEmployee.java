@@ -1,8 +1,10 @@
 package com.example.xHubBootcamp.api;
 
 
-import com.example.xHubBootcamp.entity.Employee;
+import com.example.xHubBootcamp.dto.DtoEmployee;
 import com.example.xHubBootcamp.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @RestController
 @RequestMapping("api/employee")
 public class ApiEmployee {
+    @Autowired
     private final EmployeeService employeeService;
 
     public ApiEmployee(EmployeeService employeeService) {
@@ -23,13 +26,26 @@ public class ApiEmployee {
         return "HelloWorld!!";
     }
     @GetMapping("all")
-    public List<Employee> getAllEmployees() {
-        return employeeService.getAllEmployees();
+    public ResponseEntity<List<DtoEmployee>> getAllEmployees() {
+        List<DtoEmployee> employees = employeeService.getAllEmployees();
+        return ResponseEntity.ok(employees);
     }
     @PostMapping("add")
-    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
-        Employee createdEmployee = employeeService.addEmployee(employee);
-        return ResponseEntity.ok(createdEmployee);
+    public ResponseEntity<DtoEmployee> addEmployee(@RequestBody DtoEmployee dtoEmployee) {
+        DtoEmployee createdEmployee = employeeService.addEmployee(dtoEmployee);
+        return new ResponseEntity<>(createdEmployee, HttpStatus.CREATED);
+    }
+
+    @PutMapping("update")
+    public ResponseEntity<DtoEmployee> updateEmployee(@RequestBody DtoEmployee dtoEmployee) {
+        DtoEmployee updatedEmployee = employeeService.updateEmployee(dtoEmployee);
+        return new ResponseEntity<>(updatedEmployee, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
+        employeeService.deleteEmployee(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
